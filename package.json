@@ -1,0 +1,32 @@
+{
+  "name": "pca-interactive-visualization",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ericazhou7/pca-interactive-visualization.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ericazhou7/pca-interactive-visualization/issues"
+  },
+  "homepage": "https://github.com/ericazhou7/pca-interactive-visualization#readme",
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "babel-loader": "^8.2.2",
+    "http-server": "^0.12.3",
+    "webpack": "^5.12.1",
+    "webpack-cli": "^4.3.1",
+    "webpack-dev-server": "^3.11.1"
+  },
+  "dependencies": {
+    "d3": "^6.3.1"
+  }
+}
