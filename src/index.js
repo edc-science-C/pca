@@ -40,7 +40,7 @@ var tooltip = d3.select("#scatterplot").append("div")
 var jitterWidth = 40
 
 //Read the data
-d3.csv("data/pokemon_small.csv", function(data) {
+d3.csv("./data/pokemon_small.csv", function(data) {
   // Add dots
   svg.append('g')
     .selectAll("dot")
