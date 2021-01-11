@@ -3,7 +3,14 @@ body {
 }
 
 #selectXButton {
-    float: right;
+    position: absolute;
+    top:300px;
+    left:975px;
+}
+
+#selectYButton {
+    position: absolute;
+    left:425px;
 }
 
 .tooltip {

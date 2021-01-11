@@ -21,19 +21,18 @@ var svg = d3.select("#scatterplot")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
 
-// Add X axis
+// Add axes
 var x = d3.scaleLinear()
-  .domain([-1, 5])
+  .domain([-5, 5])
   .range([0, width]);
-svg.append("g")
-  .attr("transform", "translate(0," + height + ")")
-  .call(d3.axisBottom(x));
-
-// Add Y axis
 var y = d3.scaleLinear()
-  .domain([-1, 5])
+  .domain([-5, 5])
   .range([height, 0]);
 svg.append("g")
+  .attr("transform", "translate(0," + y.range()[0] / 2 + ")")
+  .call(d3.axisBottom(x));
+svg.append("g")
+  .attr("transform", "translate(" + x.range()[1] / 2 + ", 0)")
   .call(d3.axisLeft(y));
 
 // add the tooltip area to the webpage
@@ -51,7 +50,9 @@ function jitter(input) {
 d3.csv("data/pokemon_small.csv", function(data) {
 
   // List of groups (here I have one group per column)
-  var menuOptions = ["against_grass","against_water","against_fire","against_normal","against_rock"];
+  var xOptions = ["against_grass","against_water","against_fire","against_electric","against_rock","pc1"];
+  var yOptions = ["against_grass","against_water","against_fire","against_electric","against_rock","pc2"];
+
 
   var currentX = 'against_water';
   var currentY = 'against_grass';
@@ -59,20 +60,22 @@ d3.csv("data/pokemon_small.csv", function(data) {
   // add the options to the x button
   d3.select("#selectXButton")
       .selectAll('xOptions')
-     	.data(menuOptions)
+     	.data(xOptions)
       .enter()
     	.append('option')
       .text(function (d) { return d; }) // text showed in the menu
       .attr("value", function (d) { return d; }) // corresponding value returned by the button
+      .property("selected", function(d){ return d === currentX; }) //default
 
   // add the options to the y button
   d3.select("#selectYButton")
       .selectAll('yOptions')
-     	.data(menuOptions)
+     	.data(yOptions)
       .enter()
     	.append('option')
       .text(function (d) { return d; }) // text showed in the menu
       .attr("value", function (d) { return d; }) // corresponding value returned by the button
+      .property("selected", function(d){ return d === currentY; }) //default
 
   // Add dots & tooltip
   var dot = svg.selectAll("circle")
