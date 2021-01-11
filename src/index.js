@@ -4,8 +4,13 @@ var margin = {top: 10, right: 30, bottom: 30, left: 60},
     height = 500 - margin.top - margin.bottom;
 
 // setup fill color
-var typeColor = d3.scaleOrdinal().domain(['grass','water','fire'])
-  .range(['green','blue','red'])
+var typeColor = d3.scaleOrdinal()
+		.domain(["ice","grass","fire","psychic","rock","normal",
+			"ground","dragon","fairy","water","bug","fighting",
+			"dark","ghost","poison","electric","steel","flying"])
+  		.range(["#66EBFF","#8ED752", "#F95643","#FB61B4","#CDBD72","#BBBDAF",
+              "#F0CA42","#8B76FF","#F9AEFE","#53AFFE","#C3D221","#A35449",
+              "#8E6856","#7673DA","#AD5CA2","#F8E64E","#C3C1D7","#75A4F9"])
 
 // append the svg object to the body of the page
 var svg = d3.select("#scatterplot")
@@ -37,18 +42,45 @@ var tooltip = d3.select("#scatterplot").append("div")
     .style("opacity", 0);
 
 // add jitter to see points better
-var jitterWidth = 40
+var jitterWidth = 40;
+function jitter(input) {
+	return input + Math.random()*jitterWidth;
+}
 
 //Read the data
-d3.csv("./data/pokemon_small.csv", function(data) {
-  // Add dots
-  svg.append('g')
-    .selectAll("dot")
+d3.csv("data/pokemon_small.csv", function(data) {
+
+  // List of groups (here I have one group per column)
+  var menuOptions = ["against_grass","against_water","against_fire","against_normal","against_rock"];
+
+  var currentX = 'against_water';
+  var currentY = 'against_grass';
+
+  // add the options to the x button
+  d3.select("#selectXButton")
+      .selectAll('xOptions')
+     	.data(menuOptions)
+      .enter()
+    	.append('option')
+      .text(function (d) { return d; }) // text showed in the menu
+      .attr("value", function (d) { return d; }) // corresponding value returned by the button
+
+  // add the options to the y button
+  d3.select("#selectYButton")
+      .selectAll('yOptions')
+     	.data(menuOptions)
+      .enter()
+    	.append('option')
+      .text(function (d) { return d; }) // text showed in the menu
+      .attr("value", function (d) { return d; }) // corresponding value returned by the button
+
+  // Add dots & tooltip
+  var dot = svg.selectAll("circle")
     .data(data)
     .enter()
     .append("circle")
-      .attr("cx", function (d) {return x(d.against_water) + Math.random()*jitterWidth;})
-      .attr("cy", function (d) {return y(d.against_grass) + Math.random()*jitterWidth;})
+      .attr("cx", function (d) {return jitter(x(d.against_water));})
+      .attr("cy", function (d) {return jitter(y(d.against_grass));})
       .attr("r", 4)
       .style("fill", function (d) {return typeColor(d.type1);})
       .style("opacity",0.5)
@@ -65,5 +97,42 @@ d3.csv("./data/pokemon_small.csv", function(data) {
                .duration(500)
                .style("opacity", 0);
       });
+
+  // A function that update the chart
+    function update(selectedGroup,axis) {
+
+      // Create new data with the selection?
+      if (axis == 'y') {
+      	var dataFilter = data.map(function(d){return {xVar: d[currentX], yVar:d[selectedGroup]} })
+        currentY = selectedGroup;
+      } else {
+      	var dataFilter = data.map(function(d){return {xVar: d[selectedGroup], yVar:d[currentY]} })     
+      	currentX = selectedGroup;
+      }
+
+      // Give these new data to update line
+      dot
+          .data(dataFilter)
+          .transition()
+          .duration(1000)
+          .attr("cx", function(d) { return jitter(x(d.xVar));})
+          .attr("cy", function(d) { return jitter(y(d.yVar));})
+    }
+
+    // When the button is changed, run the updateChart function
+    d3.select("#selectXButton").on("change", function(d) {
+        // recover the option that has been chosen
+        var selectedOption = d3.select(this).property("value")
+        // run the updateChart function with this selected option
+        update(selectedOption, 'x')
+    })
+
+     // When the button is changed, run the updateChart function
+    d3.select("#selectYButton").on("change", function(d) {
+        // recover the option that has been chosen
+        var selectedOption = d3.select(this).property("value")
+        // run the updateChart function with this selected option
+        update(selectedOption, 'y')
+    })
 
 })

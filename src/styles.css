@@ -2,6 +2,10 @@ body {
   font: 14px sans-serif;
 }
 
+#selectXButton {
+    float: right;
+}
+
 .tooltip {
   position: absolute;
   width: 200px;
