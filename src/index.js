@@ -16,6 +16,14 @@ var typeColor = d3.scaleOrdinal()
 var xOptions = ["against_grass","against_water","against_fire","against_electric","against_rock","pc1"];
 var yOptions = ["against_grass","against_water","against_fire","against_electric","against_rock","pc2"];
 
+// setup axes
+var x = d3.scaleLinear()
+  .domain([-5, 5])
+  .range([0, width]);
+var y = d3.scaleLinear()
+  .domain([-5, 5])
+  .range([height, 0]);
+
 // add jitter to see points better
 var jitterWidth = 40;
 function jitter(input) {
@@ -23,6 +31,7 @@ function jitter(input) {
 }
 
 //PAGE 1
+
 var svg1 = d3.select("#scatterplot1")
   .append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -31,13 +40,6 @@ var svg1 = d3.select("#scatterplot1")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
 
-// Add axes
-var x = d3.scaleLinear()
-  .domain([-5, 5])
-  .range([0, width]);
-var y = d3.scaleLinear()
-  .domain([-5, 5])
-  .range([height, 0]);
 svg1.append("g")
   .attr("transform", "translate(0," + y.range()[0] / 2 + ")")
   .call(d3.axisBottom(x));
@@ -49,6 +51,26 @@ svg1.append("g")
 var tooltip = d3.select("#scatterplot1").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
+
+var mouseover = function(d) {
+	console.log('clicked')
+    tooltip
+    	.transition()
+        .duration(200)
+      	.style("opacity", 1);
+  	tooltip
+	  .html(d.name)
+      .style("left", (d3.event.pageX + 10) + "px")
+      .style("top", (d3.event.pageY) + "px");
+}
+
+// A function that change this tooltip when the leaves a point: just need to set opacity to 0 again
+var mouseout = function(d) {
+	tooltip
+	  .transition()
+	  .duration(200)
+	  .style("opacity", 0);
+}
 
 //Read the data
 d3.csv("../data/pokemon_small.csv", function(data) {
@@ -76,7 +98,7 @@ d3.csv("../data/pokemon_small.csv", function(data) {
       .property("selected", function(d){ return d === currentY; }) //default
 
   // Add dots & tooltip
-  var dot = svg1.selectAll("circle")
+  var circles = svg1.selectAll("circle")
     .data(data)
     .enter()
     .append("circle")
@@ -85,23 +107,10 @@ d3.csv("../data/pokemon_small.csv", function(data) {
       .attr("r", 4)
       .style("fill", function (d) {return typeColor(d.type1);})
       .style("opacity",0.5)
-  	.on("mouseover", function(d) {
-          tooltip.transition()
-               .duration(200)
-               .style("opacity", .9);
-          tooltip.html(d.name)
-               .style("left", (d3.event.pageX + 10) + "px")
-               .style("top", (d3.event.pageY) + "px");
-      })
-      .on("mouseout", function(d) {
-          tooltip.transition()
-               .duration(500)
-               .style("opacity", 0);
-      });
+  	.on("mouseover", mouseover)
+  	.on("mouseout", mouseout);
 
-  // A function that update the chart
-  function update(selectedGroup,axis) {
-
+  function updateAxis(selectedGroup,axis) {
     // Create new data with the selection?
     if (axis == 'y') {
   	  var dataFilter = data.map(function(d){return {xVar: d[currentX], yVar:d[selectedGroup]} })
@@ -111,13 +120,13 @@ d3.csv("../data/pokemon_small.csv", function(data) {
   	  currentX = selectedGroup;
     }
 
-    // Give these new data to update line
-    dot
+    // Give these new data to update dots
+    circles
       .data(dataFilter)
       .transition()
-      .duration(1000)
+      .duration(500)
       .attr("cx", function(d) { return jitter(x(d.xVar));})
-      .attr("cy", function(d) { return jitter(y(d.yVar));})
+      .attr("cy", function(d) { return jitter(y(d.yVar));});
   }
 
   // When the button is changed, run the updateChart function
@@ -125,7 +134,7 @@ d3.csv("../data/pokemon_small.csv", function(data) {
     // recover the option that has been chosen
     var selectedOption = d3.select(this).property("value")
     // run the updateChart function with this selected option
-    update(selectedOption, 'x')
+    updateAxis(selectedOption, 'x')
   })
 
   // When the button is changed, run the updateChart function
@@ -133,7 +142,7 @@ d3.csv("../data/pokemon_small.csv", function(data) {
     // recover the option that has been chosen
     var selectedOption = d3.select(this).property("value")
     // run the updateChart function with this selected option
-    update(selectedOption, 'y')
+    updateAxis(selectedOption, 'y')
   })
 })
 
@@ -155,7 +164,7 @@ svg2.append("g")
   .call(d3.axisLeft(y));
 
 // add the tooltip area to the webpage
-var tooltip = d3.select("#scatterplot2").append("div")
+var tooltip2= d3.select("#scatterplot2").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
