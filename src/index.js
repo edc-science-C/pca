@@ -13,7 +13,7 @@ var typeColor = d3.scaleOrdinal()
               "#8E6856","#7673DA","#AD5CA2","#F8E64E","#C3C1D7","#75A4F9"])
 
 // append the svg object to the body of the page
-var svg = d3.select("#scatterplot")
+var svg = d3.select("#scatterplot1")
   .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
