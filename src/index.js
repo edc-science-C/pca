@@ -47,7 +47,7 @@ function jitter(input) {
 }
 
 //Read the data
-d3.csv("data/pokemon_small.csv", function(data) {
+d3.csv("../data/pokemon_small.csv", function(data) {
 
   // List of groups (here I have one group per column)
   var xOptions = ["against_grass","against_water","against_fire","against_electric","against_rock","pc1"];
