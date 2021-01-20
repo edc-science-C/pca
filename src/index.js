@@ -76,7 +76,7 @@ function initializeDropdown(button,options,initial_val) {
       .selectAll('options')
      	.data(options)
       .enter()
-    	.append('options')
+    	.append('option')
       .text(function (d) { return d; }) // text showed in the menu
       .attr("value", function (d) { return d; }) // corresponding value returned by the button
       .property("selected", function(d){ return d === initial_val; }) //default
