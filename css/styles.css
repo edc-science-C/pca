@@ -26,14 +26,12 @@ body {
 }
 
 .left-element {
-    /*background: green;*/
     display: inline-block;
     position: absolute;
     left: 0;
 }
 
 .right-element {
-    /*background: red;*/
     display: inline-block;
     position: absolute;
     right: 0;

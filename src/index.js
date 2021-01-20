@@ -25,7 +25,7 @@ var y = d3.scaleLinear()
   .range([height, 0]);
 
 // add jitter to see points better
-var jitterWidth = 40;
+var jitterWidth = 25;
 function jitter(input) {
 	return input + Math.random()*jitterWidth;
 }
@@ -76,7 +76,7 @@ function initializeDropdown(button,options,initial_val) {
       .selectAll('options')
      	.data(options)
       .enter()
-    	.append('option')
+    	.append('options')
       .text(function (d) { return d; }) // text showed in the menu
       .attr("value", function (d) { return d; }) // corresponding value returned by the button
       .property("selected", function(d){ return d === initial_val; }) //default
