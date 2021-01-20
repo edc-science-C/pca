@@ -31,7 +31,6 @@ function jitter(input) {
 }
 
 //PAGE 1
-
 var svg1 = d3.select("#scatterplot1")
   .append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -123,19 +122,13 @@ d3.csv("../data/pokemon_small.csv", function(data) {
       .attr("cy", function(d) { return jitter(y(d.yVar));});
   }
 
-  // When the button is changed, run the updateChart function
   d3.select("#selectXButton").on("change", function(d) {
-    // recover the option that has been chosen
     var selectedOption = d3.select(this).property("value")
-    // run the updateChart function with this selected option
     updateAxis(selectedOption, 'x')
   })
 
-  // When the button is changed, run the updateChart function
   d3.select("#selectYButton").on("change", function(d) {
-    // recover the option that has been chosen
     var selectedOption = d3.select(this).property("value")
-    // run the updateChart function with this selected option
     updateAxis(selectedOption, 'y')
   })
 })
@@ -158,7 +151,7 @@ svg2.append("g")
   .call(d3.axisLeft(y));
 
 // add the tooltip area to the webpage
-var tooltip2= d3.select("#scatterplot2").append("div")
+var tooltip= d3.select("#scatterplot2").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
@@ -168,19 +161,16 @@ function calculateAxisValue(data,v1,v2,v3) {
 
 //Read the data
 d3.csv("../data/pokemon_small.csv", function(data) {
-  var x1 = 'against_water';
-  var x2 = 'against_grass';
-  var x3 = 'against_fire';
-  var y1 = 'against_water';
-  var y2 = 'against_grass';
-  var y3 = 'against_fire';
+  var x1,x2,x3,y1,y2,y3;
+  x1 = x2 = x3 = 'against_water';
+  y1 = y2 = y3 = 'against_grass';
 
-  initializeDropdown('x_button_1',xOptions,x1);
-  initializeDropdown('x_button_2',xOptions,x2);
-  initializeDropdown('x_button_3',xOptions,x3);
-  initializeDropdown('y_button_1',yOptions,y1);
-  initializeDropdown('y_button_2',yOptions,y2);
-  initializeDropdown('y_button_3',yOptions,y3);
+  initializeDropdown('button_x1',xOptions,x1);
+  initializeDropdown('button_x2',xOptions,x2);
+  initializeDropdown('button_x3',xOptions,x3);
+  initializeDropdown('button_y1',yOptions,y1);
+  initializeDropdown('button_y2',yOptions,y2);
+  initializeDropdown('button_y3',yOptions,y3);
 
     // Add dots & tooltip
   var circles = svg2.selectAll("circle")
@@ -203,33 +193,29 @@ d3.csv("../data/pokemon_small.csv", function(data) {
       .attr("cy", function(d) { return jitter(y(calculateAxisValue(d,y1,y2,y3)));});
   }
 
-  d3.select("#x_button_1").on("change", function(d) {
+  d3.select("#button_x1").on("change", function(d) {
     x1 = d3.select(this).property("value");
     update();
   })
-  d3.select("#x_button_2").on("change", function(d) {
+  d3.select("#button_x2").on("change", function(d) {
     x2 = d3.select(this).property("value");
     update();
   })
-
-  d3.select("#x_button_3").on("change", function(d) {
+  d3.select("#button_x3").on("change", function(d) {
     x3 = d3.select(this).property("value");
     update();
   })
 
-  d3.select("#y_button_1").on("change", function(d) {
+  d3.select("#button_y1").on("change", function(d) {
     y1 = d3.select(this).property("value");
     update();
   })
-  d3.select("#y_button_2").on("change", function(d) {
+  d3.select("#button_y2").on("change", function(d) {
     y2 = d3.select(this).property("value");
     update();
   })
-  d3.select("#y_button_3").on("change", function(d) {
+  d3.select("#button_y3").on("change", function(d) {
     y3 = d3.select(this).property("value");
     update();
   })
-
-
-
 })
