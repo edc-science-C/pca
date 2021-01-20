@@ -53,7 +53,6 @@ var tooltip = d3.select("#scatterplot1").append("div")
     .style("opacity", 0);
 
 var mouseover = function(d) {
-	console.log('clicked')
     tooltip
     	.transition()
         .duration(200)
@@ -72,38 +71,33 @@ var mouseout = function(d) {
 	  .style("opacity", 0);
 }
 
+// make dropdown button
+function initializeDropdown(button,options,initial_val) {
+	d3.select("#" + button)
+      .selectAll('xOptions')
+     	.data(options)
+      .enter()
+    	.append('option')
+      .text(function (d) { return d; }) // text showed in the menu
+      .attr("value", function (d) { return d; }) // corresponding value returned by the button
+      .property("selected", function(d){ return d === initial_val; }) //default
+}
+
 //Read the data
 d3.csv("../data/pokemon_small.csv", function(data) {
   var currentX = 'against_water';
   var currentY = 'against_grass';
 
-  // add the options to the x button
-  d3.select("#selectXButton")
-      .selectAll('xOptions')
-     	.data(xOptions)
-      .enter()
-    	.append('option')
-      .text(function (d) { return d; }) // text showed in the menu
-      .attr("value", function (d) { return d; }) // corresponding value returned by the button
-      .property("selected", function(d){ return d === currentX; }) //default
-
-  // add the options to the y button
-  d3.select("#selectYButton")
-      .selectAll('yOptions')
-     	.data(yOptions)
-      .enter()
-    	.append('option')
-      .text(function (d) { return d; }) // text showed in the menu
-      .attr("value", function (d) { return d; }) // corresponding value returned by the button
-      .property("selected", function(d){ return d === currentY; }) //default
+  initializeDropdown('selectXButton',xOptions,currentX);
+  initializeDropdown('selectYButton',yOptions,currentY);
 
   // Add dots & tooltip
   var circles = svg1.selectAll("circle")
     .data(data)
     .enter()
     .append("circle")
-      .attr("cx", function (d) {return jitter(x(d.against_water));})
-      .attr("cy", function (d) {return jitter(y(d.against_grass));})
+      .attr("cx", function (d) {return jitter(x(d[currentX]));})
+      .attr("cy", function (d) {return jitter(y(d[currentY]));})
       .attr("r", 4)
       .style("fill", function (d) {return typeColor(d.type1);})
       .style("opacity",0.5)
@@ -168,7 +162,74 @@ var tooltip2= d3.select("#scatterplot2").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
+function calculateAxisValue(data,v1,v2,v3) {
+	return (parseFloat(data[v1]) + parseFloat(data[v2]) + parseFloat(data[v3]))/3.;
+}
+
 //Read the data
 d3.csv("../data/pokemon_small.csv", function(data) {
-  
+  var x1 = 'against_water';
+  var x2 = 'against_grass';
+  var x3 = 'against_fire';
+  var y1 = 'against_water';
+  var y2 = 'against_grass';
+  var y3 = 'against_fire';
+
+  initializeDropdown('x_button_1',xOptions,x1);
+  initializeDropdown('x_button_2',xOptions,x2);
+  initializeDropdown('x_button_3',xOptions,x3);
+  initializeDropdown('y_button_1',yOptions,y1);
+  initializeDropdown('y_button_2',yOptions,y2);
+  initializeDropdown('y_button_3',yOptions,y3);
+
+    // Add dots & tooltip
+  var circles = svg2.selectAll("circle")
+    .data(data)
+    .enter()
+    .append("circle")
+      .attr("cx", function (d) {return jitter(x(calculateAxisValue(d,x1,x2,x3)));})
+      .attr("cy", function (d) {return jitter(y(calculateAxisValue(d,y1,y2,y3)));})
+      .attr("r", 4)
+      .style("fill", function (d) {return typeColor(d.type1);})
+      .style("opacity",0.5)
+  	.on("mouseover", mouseover)
+  	.on("mouseout", mouseout);
+
+  function update() {
+    circles
+      .transition()
+      .duration(500)
+      .attr("cx", function(d) { return jitter(x(calculateAxisValue(d,x1,x2,x3)));})
+      .attr("cy", function(d) { return jitter(y(calculateAxisValue(d,y1,y2,y3)));});
+  }
+
+  d3.select("#x_button_1").on("change", function(d) {
+    x1 = d3.select(this).property("value");
+    update();
+  })
+  d3.select("#x_button_2").on("change", function(d) {
+    x1 = d3.select(this).property("value");
+    update();
+  })
+
+  d3.select("#x_button_3").on("change", function(d) {
+    x1 = d3.select(this).property("value");
+    update();
+  })
+
+  d3.select("#y_button_1").on("change", function(d) {
+    x1 = d3.select(this).property("value");
+    update();
+  })
+  d3.select("#y_button_2").on("change", function(d) {
+    x1 = d3.select(this).property("value");
+    update();
+  })
+  d3.select("#y_button_3").on("change", function(d) {
+    x1 = d3.select(this).property("value");
+    update();
+  })
+
+
+
 })
