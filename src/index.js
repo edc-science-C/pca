@@ -73,7 +73,7 @@ var mouseout = function(d) {
 // make dropdown button
 function initializeDropdown(button,options,initial_val) {
 	d3.select("#" + button)
-      .selectAll('xOptions')
+      .selectAll('options')
      	.data(options)
       .enter()
     	.append('option')
@@ -155,67 +155,101 @@ var tooltip= d3.select("#scatterplot2").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
-function calculateAxisValue(data,v1,v2,v3) {
-	return (parseFloat(data[v1]) + parseFloat(data[v2]) + parseFloat(data[v3]))/3.;
-}
-
 //Read the data
 d3.csv("../data/pokemon_small.csv", function(data) {
-  var x1,x2,x3,y1,y2,y3;
-  x1 = x2 = x3 = 'against_water';
-  y1 = y2 = y3 = 'against_grass';
+  var x1_var,x2_var,x3_var,y1_var,y2_var,y3_var,x1_val,x2_val,x3_val,y1_val,y2_val,y3_val;
+  x1_var = x2_var = x3_var = 'against_water';
+  y1_var = y2_var = y3_var = 'against_grass';
+  x1_val = x2_val = x3_val = y1_val = y2_val = y3_val = 50;
 
-  initializeDropdown('button_x1',xOptions,x1);
-  initializeDropdown('button_x2',xOptions,x2);
-  initializeDropdown('button_x3',xOptions,x3);
-  initializeDropdown('button_y1',yOptions,y1);
-  initializeDropdown('button_y2',yOptions,y2);
-  initializeDropdown('button_y3',yOptions,y3);
+  initializeDropdown('button_x1',xOptions,x1_var);
+  initializeDropdown('button_x2',xOptions,x2_var);
+  initializeDropdown('button_x3',xOptions,x3_var);
+  initializeDropdown('button_y1',yOptions,y1_var);
+  initializeDropdown('button_y2',yOptions,y2_var);
+  initializeDropdown('button_y3',yOptions,y3_var);
 
     // Add dots & tooltip
   var circles = svg2.selectAll("circle")
     .data(data)
     .enter()
     .append("circle")
-      .attr("cx", function (d) {return jitter(x(calculateAxisValue(d,x1,x2,x3)));})
-      .attr("cy", function (d) {return jitter(y(calculateAxisValue(d,y1,y2,y3)));})
+      .attr("cx", function (d) {return jitter(x(transformX(d)));})
+      .attr("cy", function (d) {return jitter(y(transformY(d)));})
       .attr("r", 4)
       .style("fill", function (d) {return typeColor(d.type1);})
       .style("opacity",0.5)
   	.on("mouseover", mouseover)
   	.on("mouseout", mouseout);
 
+
+  function transformX(data) {
+  	var sum = x1_val+x2_val+x3_val;
+	return (x1_val*data[x1_var]+x2_val*data[x2_var]+x3_val*data[x3_var])/sum;
+  }
+
+  function transformY(data) {
+	var sum = y1_val+y2_val+y3_val;
+	return (y1_val*data[y1_var]+y2_val*data[y2_var]+y3_val*data[y3_var])/sum;
+  }
+
   function update() {
     circles
       .transition()
       .duration(500)
-      .attr("cx", function(d) { return jitter(x(calculateAxisValue(d,x1,x2,x3)));})
-      .attr("cy", function(d) { return jitter(y(calculateAxisValue(d,y1,y2,y3)));});
+      .attr("cx", function(d) { return jitter(x(transformX(d)));})
+      .attr("cy", function(d) { return jitter(y(transformY(d)));});
   }
 
+  //update for buttons
   d3.select("#button_x1").on("change", function(d) {
-    x1 = d3.select(this).property("value");
+    x1_var = d3.select(this).property("value");
     update();
   })
   d3.select("#button_x2").on("change", function(d) {
-    x2 = d3.select(this).property("value");
+    x2_var = d3.select(this).property("value");
     update();
   })
   d3.select("#button_x3").on("change", function(d) {
-    x3 = d3.select(this).property("value");
+    x3_var = d3.select(this).property("value");
     update();
   })
-
   d3.select("#button_y1").on("change", function(d) {
-    y1 = d3.select(this).property("value");
+    y1_var = d3.select(this).property("value");
     update();
   })
   d3.select("#button_y2").on("change", function(d) {
-    y2 = d3.select(this).property("value");
+    y2_var = d3.select(this).property("value");
     update();
   })
   d3.select("#button_y3").on("change", function(d) {
-    y3 = d3.select(this).property("value");
+    y3_var = d3.select(this).property("value");
+    update();
+  })
+
+  // update for sliders
+  d3.select("#slider_x1").on("change", function(d){
+    x1_val = parseFloat(this.value);
+    update();
+  })
+  d3.select("#slider_x2").on("change", function(d){
+    x2_val = parseFloat(this.value);
+    update();
+  })
+  d3.select("#slider_x3").on("change", function(d){
+    x3_val = parseFloat(this.value);
+    update();
+  })
+  d3.select("#slider_y1").on("change", function(d){
+    y1_val = parseFloat(this.value);
+    update();
+  })
+  d3.select("#slider_y2").on("change", function(d){
+    y2_val = parseFloat(this.value);
+    update();
+  })
+  d3.select("#slider_y3").on("change", function(d){
+    y3_val = parseFloat(this.value);
     update();
   })
 })

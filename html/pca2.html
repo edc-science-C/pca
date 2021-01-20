@@ -7,25 +7,42 @@
     <title>PCA: Part 2</title>
   </head>
   <body>
-  <h1>Make your own axes</h1>
-  <div class="container">
-    <div id="scatterplot2" class="left-element"></div>
-    <div id="sliders" class="right-element">
-      <h2>X-Axis Variables</h2>
-      <div id="x_axis_sliders" class="row align-items-center">
-        <select id="button_x1"></select>
-        <select id="button_x2"></select>
-        <select id="button_x3"></select>
+    <h1>Make your own axes</h1>
+    <div class="container">
+      <div id="scatterplot2" class="left-element"></div>
+      <div id="sliders" class="right-element">
+        <h2>X-Axis Variables</h2>
+        <div id="x_axis_sliders">
+          <div class="blocks">
+            <select id="button_x1"></select>
+            <input id="slider_x1" type="range" min="0" max="100" value="50">
+          </div>
+          <div class="blocks">
+            <select id="button_x2"></select>
+            <input id="slider_x2" type="range" min="0" max="100" value="50">
+          </div>
+          <div class="blocks">
+            <select id="button_x3"></select>
+            <input id="slider_x3" type="range" min="0" max="100" value="50">
+          </div>
       </div>
-      <h2>y-Axis Variables</h2>
-      <div id="y_axis_sliders">
-        <select id="button_y1"></select>
-        <select id="button_y2"></select>
-        <select id="button_y3"></select>
+        <h2>Y-Axis Variables</h2>
+        <div id="y_axis_sliders">
+          <div class="blocks">
+            <select id="button_y1"></select>        
+            <input id="slider_y1" type="range" min="0" max="100" value="50">
+          </div>
+          <div class="blocks">
+            <select id="button_y2"></select>
+            <input id="slider_y2" type="range" min="0" max="100" value="50">
+          </div>
+          <div class="blocks">
+            <select id="button_y3"></select>
+            <input id="slider_y3" type="range" min="0" max="100" value="50">
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-
-  <script type="text/javascript" src="../dist/main.js"></script>
-</body>
+    <script type="text/javascript" src="../dist/main.js"></script>
+  </body>
 </html>
