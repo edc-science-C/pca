@@ -208,25 +208,25 @@ d3.csv("../data/pokemon_small.csv", function(data) {
     update();
   })
   d3.select("#x_button_2").on("change", function(d) {
-    x1 = d3.select(this).property("value");
+    x2 = d3.select(this).property("value");
     update();
   })
 
   d3.select("#x_button_3").on("change", function(d) {
-    x1 = d3.select(this).property("value");
+    x3 = d3.select(this).property("value");
     update();
   })
 
   d3.select("#y_button_1").on("change", function(d) {
-    x1 = d3.select(this).property("value");
+    y1 = d3.select(this).property("value");
     update();
   })
   d3.select("#y_button_2").on("change", function(d) {
-    x1 = d3.select(this).property("value");
+    y2 = d3.select(this).property("value");
     update();
   })
   d3.select("#y_button_3").on("change", function(d) {
-    x1 = d3.select(this).property("value");
+    y3 = d3.select(this).property("value");
     update();
   })
 
