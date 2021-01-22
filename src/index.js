@@ -57,9 +57,18 @@ var mouseover = function(d) {
         .duration(200)
       	.style("opacity", 1);
   	tooltip
-	  .html(d.name)
-      .style("left", (d3.event.pageX + 10) + "px")
-      .style("top", (d3.event.pageY) + "px");
+	    .html(d.name)
+      .style("left", (d3.event.pageX+10) + "px")
+      .style("top", d3.event.pageY + "px");
+
+    tooltip2
+      .transition()
+        .duration(200)
+        .style("opacity", 1);
+    tooltip2
+      .html(d.name)
+      .style("left", (d3.event.pageX+10) + "px")
+      .style("top", (d3.event.pageY-75) + "px");
 }
 
 // A function that change this tooltip when the leaves a point: just need to set opacity to 0 again
@@ -68,6 +77,11 @@ var mouseout = function(d) {
 	  .transition()
 	  .duration(200)
 	  .style("opacity", 0);
+
+  tooltip2
+    .transition()
+    .duration(200)
+    .style("opacity", 0);
 }
 
 // make dropdown button
@@ -116,6 +130,8 @@ d3.csv("../data/pokemon_small.csv", function(data) {
     // Give these new data to update dots
     circles
       .data(dataFilter)
+      .on("mouseover", mouseover)
+      .on("mouseout", mouseout)
       .transition()
       .duration(500)
       .attr("cx", function(d) { return jitter(x(d.xVar));})
@@ -151,7 +167,7 @@ svg2.append("g")
   .call(d3.axisLeft(y));
 
 // add the tooltip area to the webpage
-var tooltip= d3.select("#scatterplot2").append("div")
+var tooltip2 = d3.select("#scatterplot2").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
@@ -195,6 +211,8 @@ d3.csv("../data/pokemon_small.csv", function(data) {
 
   function update() {
     circles
+      .on("mouseover", mouseover)
+      .on("mouseout", mouseout)
       .transition()
       .duration(500)
       .attr("cx", function(d) { return jitter(x(transformX(d)));})
