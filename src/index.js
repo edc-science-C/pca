@@ -5,30 +5,20 @@ var margin = {top: 10, right: 30, bottom: 30, left: 60},
 
 // setup fill color
 var typeColor = d3.scaleOrdinal()
-		.domain(["ice","grass","fire","psychic","rock","normal",
-			"ground","dragon","fairy","water","bug","fighting",
-			"dark","ghost","poison","electric","steel","flying"])
-  		.range(["#66EBFF","#8ED752", "#F95643","#FB61B4","#CDBD72","#BBBDAF",
-              "#F0CA42","#8B76FF","#F9AEFE","#53AFFE","#C3D221","#A35449",
-              "#8E6856","#7673DA","#AD5CA2","#F8E64E","#C3C1D7","#75A4F9"])
+		.domain(["Iris-setosa","Iris-versicolor","Iris-virginica"])
+  		.range(["#66EBFF","#8ED752", "#F95643"])
 
 // setup dropdown options
-var xOptions = ["against_grass","against_water","against_fire","against_electric","against_rock","pc1"];
-var yOptions = ["against_grass","against_water","against_fire","against_electric","against_rock","pc2"];
+var xOptions = ["SepalLengthCm","SepalWidthCm","PetalLengthCm","PetalWidthCm","pc1"];
+var yOptions = ["SepalLengthCm","SepalWidthCm","PetalLengthCm","PetalWidthCm","pc2"];
 
 // setup axes
 var x = d3.scaleLinear()
-  .domain([-5, 5])
+  .domain([-8, 8])
   .range([0, width]);
 var y = d3.scaleLinear()
-  .domain([-5, 5])
+  .domain([-8, 8])
   .range([height, 0]);
-
-// add jitter to see points better
-var jitterWidth = 25;
-function jitter(input) {
-	return input + Math.random()*jitterWidth;
-}
 
 //PAGE 1
 var svg1 = d3.select("#scatterplot1")
@@ -97,9 +87,9 @@ function initializeDropdown(button,options,initial_val) {
 }
 
 //Read the data
-d3.csv("../data/pokemon_small.csv", function(data) {
-  var currentX = 'against_water';
-  var currentY = 'against_grass';
+d3.csv("../data/iris_pca.csv", function(data) {
+  var currentX = 'SepalLengthCm';
+  var currentY = 'SepalWidthCm';
 
   initializeDropdown('selectXButton',xOptions,currentX);
   initializeDropdown('selectYButton',yOptions,currentY);
@@ -109,10 +99,10 @@ d3.csv("../data/pokemon_small.csv", function(data) {
     .data(data)
     .enter()
     .append("circle")
-      .attr("cx", function (d) {return jitter(x(d[currentX]));})
-      .attr("cy", function (d) {return jitter(y(d[currentY]));})
+      .attr("cx", function (d) {return x(d[currentX]);})
+      .attr("cy", function (d) {return y(d[currentY]);})
       .attr("r", 4)
-      .style("fill", function (d) {return typeColor(d.type1);})
+      .style("fill", function (d) {return typeColor(d.Species);})
       .style("opacity",0.5)
   	.on("mouseover", mouseover)
   	.on("mouseout", mouseout);
@@ -134,8 +124,8 @@ d3.csv("../data/pokemon_small.csv", function(data) {
       .on("mouseout", mouseout)
       .transition()
       .duration(500)
-      .attr("cx", function(d) { return jitter(x(d.xVar));})
-      .attr("cy", function(d) { return jitter(y(d.yVar));});
+      .attr("cx", function(d) { return x(d.xVar);})
+      .attr("cy", function(d) { return y(d.yVar);});
   }
 
   d3.select("#selectXButton").on("change", function(d) {
@@ -172,10 +162,10 @@ var tooltip2 = d3.select("#scatterplot2").append("div")
     .style("opacity", 0);
 
 //Read the data
-d3.csv("../data/pokemon_small.csv", function(data) {
+d3.csv("../data/iris_pca.csv", function(data) {
   var x1_var,x2_var,x3_var,y1_var,y2_var,y3_var,x1_val,x2_val,x3_val,y1_val,y2_val,y3_val;
-  x1_var = x2_var = x3_var = 'against_water';
-  y1_var = y2_var = y3_var = 'against_grass';
+  x1_var = x2_var = x3_var = 'SepalWidthCm';
+  y1_var = y2_var = y3_var = 'SepalLengthCm';
   x1_val = x2_val = x3_val = y1_val = y2_val = y3_val = 50;
 
   initializeDropdown('button_x1',xOptions,x1_var);
@@ -190,10 +180,10 @@ d3.csv("../data/pokemon_small.csv", function(data) {
     .data(data)
     .enter()
     .append("circle")
-      .attr("cx", function (d) {return jitter(x(transformX(d)));})
-      .attr("cy", function (d) {return jitter(y(transformY(d)));})
+      .attr("cx", function (d) {return x(transformX(d));})
+      .attr("cy", function (d) {return y(transformY(d));})
       .attr("r", 4)
-      .style("fill", function (d) {return typeColor(d.type1);})
+      .style("fill", function (d) {return typeColor(d.Species);})
       .style("opacity",0.5)
   	.on("mouseover", mouseover)
   	.on("mouseout", mouseout);
@@ -215,8 +205,8 @@ d3.csv("../data/pokemon_small.csv", function(data) {
       .on("mouseout", mouseout)
       .transition()
       .duration(500)
-      .attr("cx", function(d) { return jitter(x(transformX(d)));})
-      .attr("cy", function(d) { return jitter(y(transformY(d)));});
+      .attr("cx", function(d) { return x(transformX(d));})
+      .attr("cy", function(d) { return y(transformY(d));});
   }
 
   //update for buttons
