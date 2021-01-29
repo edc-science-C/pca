@@ -188,15 +188,16 @@ d3.csv("../data/iris_pca.csv", function(data) {
   	.on("mouseover", mouseover)
   	.on("mouseout", mouseout);
 
-
   function transformX(data) {
-  	var sum = x1_val+x2_val+x3_val;
-	return (x1_val*data[x1_var]+x2_val*data[x2_var]+x3_val*data[x3_var])/sum;
+    var sum = Math.abs(x1_val)+Math.abs(x2_val)+Math.abs(x3_val);
+    if (sum == 0) {return 0;}
+	  return (x1_val*data[x1_var]+x2_val*data[x2_var]+x3_val*data[x3_var])/sum;
   }
 
   function transformY(data) {
-	var sum = y1_val+y2_val+y3_val;
-	return (y1_val*data[y1_var]+y2_val*data[y2_var]+y3_val*data[y3_var])/sum;
+	  var sum = Math.abs(y1_val)+Math.abs(y2_val)+Math.abs(y3_val);
+    if (sum == 0) {return 0;}
+	  return (y1_val*data[y1_var]+y2_val*data[y2_var]+y3_val*data[y3_var])/sum;
   }
 
   function update() {
