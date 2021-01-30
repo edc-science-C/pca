@@ -112,10 +112,10 @@ d3.csv("../data/foods_clean.csv", function(data) {
   function updateAxis(selectedGroup,axis) {
     // Create new data with the selection?
     if (axis == 'y') {
-  	  var dataFilter = data.map(function(d){return {xVar: d[currentX], yVar:d[selectedGroup]} })
+  	  var dataFilter = data.map(function(d){return {xVar: d[currentX], yVar:d[selectedGroup], Food:d.Food} })
       currentY = selectedGroup;
     } else {
-  	  var dataFilter = data.map(function(d){return {xVar: d[selectedGroup], yVar:d[currentY]} })     
+  	  var dataFilter = data.map(function(d){return {xVar: d[selectedGroup], yVar:d[currentY], Food:d.Food} })     
   	  currentX = selectedGroup;
     }
 
@@ -182,21 +182,21 @@ d3.csv("../data/foods_clean.csv", function(data) {
     .data(data)
     .enter()
     .append("circle")
-      .attr("cx", function (d) {return x(transformX(d));})
-      .attr("cy", function (d) {return y(transformY(d));})
+      .attr("cx", function (d) {return x(reweightX(d));})
+      .attr("cy", function (d) {return y(reweightY(d));})
       .attr("r", 4)
       .style("fill", function (d) {return typeColor(d.Type);})
       .style("opacity",0.5)
   	.on("mouseover", mouseover)
   	.on("mouseout", mouseout);
 
-  function transformX(data) {
+  function reweightX(data) {
     var sum = Math.abs(x1_val)+Math.abs(x2_val)+Math.abs(x3_val);
     if (sum == 0) {return 0;}
 	  return (x1_val*data[x1_var]+x2_val*data[x2_var]+x3_val*data[x3_var])/sum;
   }
 
-  function transformY(data) {
+  function reweightY(data) {
 	  var sum = Math.abs(y1_val)+Math.abs(y2_val)+Math.abs(y3_val);
     if (sum == 0) {return 0;}
 	  return (y1_val*data[y1_var]+y2_val*data[y2_var]+y3_val*data[y3_var])/sum;
@@ -208,8 +208,8 @@ d3.csv("../data/foods_clean.csv", function(data) {
       .on("mouseout", mouseout)
       .transition()
       .duration(500)
-      .attr("cx", function(d) { return x(transformX(d));})
-      .attr("cy", function(d) { return y(transformY(d));});
+      .attr("cx", function(d) { return x(reweightX(d));})
+      .attr("cy", function(d) { return y(reweightY(d));});
   }
 
   //update for buttons
