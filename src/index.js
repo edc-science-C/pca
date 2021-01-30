@@ -5,19 +5,21 @@ var margin = {top: 10, right: 30, bottom: 30, left: 60},
 
 // setup fill color
 var typeColor = d3.scaleOrdinal()
-		.domain(["Iris-setosa","Iris-versicolor","Iris-virginica"])
+		.domain(["Vegetables","Fruits","Seafood"])
   		.range(["#66EBFF","#8ED752", "#F95643"])
 
 // setup dropdown options
-var xOptions = ["SepalLengthCm","SepalWidthCm","PetalLengthCm","PetalWidthCm","pc1"];
-var yOptions = ["SepalLengthCm","SepalWidthCm","PetalLengthCm","PetalWidthCm","pc2"];
+var options = ['Calories', 'Calories from Fat', 'Total Fat (g)', 'Sodium (g)',
+       'Potassium (g)', 'Dietary Fiber (g)', 'Sugars (g)', 'Protein (g)',
+       'Vitamin A (%DV)', 'Vitamin C (%DV)', 'Calcium (%DV)', 'Iron (%DV)',
+       'Cholesterol (mg)'];
 
 // setup axes
 var x = d3.scaleLinear()
-  .domain([-8, 8])
+  .domain([-6, 6])
   .range([0, width]);
 var y = d3.scaleLinear()
-  .domain([-8, 8])
+  .domain([-6, 6])
   .range([height, 0]);
 
 //PAGE 1
@@ -47,7 +49,7 @@ var mouseover = function(d) {
         .duration(200)
       	.style("opacity", 1);
   	tooltip
-	    .html(d.name)
+	    .html(d.Food)
       .style("left", (d3.event.pageX+10) + "px")
       .style("top", d3.event.pageY + "px");
 
@@ -56,7 +58,7 @@ var mouseover = function(d) {
         .duration(200)
         .style("opacity", 1);
     tooltip2
-      .html(d.name)
+      .html(d.Food)
       .style("left", (d3.event.pageX+10) + "px")
       .style("top", (d3.event.pageY-75) + "px");
 }
@@ -87,12 +89,12 @@ function initializeDropdown(button,options,initial_val) {
 }
 
 //Read the data
-d3.csv("../data/iris_pca.csv", function(data) {
-  var currentX = 'SepalLengthCm';
-  var currentY = 'SepalWidthCm';
+d3.csv("../data/foods_clean.csv", function(data) {
+  var currentX = options[0];
+  var currentY = options[1];
 
-  initializeDropdown('selectXButton',xOptions,currentX);
-  initializeDropdown('selectYButton',yOptions,currentY);
+  initializeDropdown('selectXButton',options,currentX);
+  initializeDropdown('selectYButton',options,currentY);
 
   // Add dots & tooltip
   var circles = svg1.selectAll("circle")
@@ -102,7 +104,7 @@ d3.csv("../data/iris_pca.csv", function(data) {
       .attr("cx", function (d) {return x(d[currentX]);})
       .attr("cy", function (d) {return y(d[currentY]);})
       .attr("r", 4)
-      .style("fill", function (d) {return typeColor(d.Species);})
+      .style("fill", function (d) {return typeColor(d.Type);})
       .style("opacity",0.5)
   	.on("mouseover", mouseover)
   	.on("mouseout", mouseout);
@@ -162,18 +164,18 @@ var tooltip2 = d3.select("#scatterplot2").append("div")
     .style("opacity", 0);
 
 //Read the data
-d3.csv("../data/iris_pca.csv", function(data) {
+d3.csv("../data/foods_clean.csv", function(data) {
   var x1_var,x2_var,x3_var,y1_var,y2_var,y3_var,x1_val,x2_val,x3_val,y1_val,y2_val,y3_val;
-  x1_var = x2_var = x3_var = 'SepalWidthCm';
-  y1_var = y2_var = y3_var = 'SepalLengthCm';
-  x1_val = x2_val = x3_val = y1_val = y2_val = y3_val = 50;
+  x1_var = x2_var = x3_var = options[0];
+  y1_var = y2_var = y3_var = options[1];
+  x1_val = x2_val = x3_val = y1_val = y2_val = y3_val = 0;
 
-  initializeDropdown('button_x1',xOptions,x1_var);
-  initializeDropdown('button_x2',xOptions,x2_var);
-  initializeDropdown('button_x3',xOptions,x3_var);
-  initializeDropdown('button_y1',yOptions,y1_var);
-  initializeDropdown('button_y2',yOptions,y2_var);
-  initializeDropdown('button_y3',yOptions,y3_var);
+  initializeDropdown('button_x1',options,x1_var);
+  initializeDropdown('button_x2',options,x2_var);
+  initializeDropdown('button_x3',options,x3_var);
+  initializeDropdown('button_y1',options,y1_var);
+  initializeDropdown('button_y2',options,y2_var);
+  initializeDropdown('button_y3',options,y3_var);
 
     // Add dots & tooltip
   var circles = svg2.selectAll("circle")
@@ -183,7 +185,7 @@ d3.csv("../data/iris_pca.csv", function(data) {
       .attr("cx", function (d) {return x(transformX(d));})
       .attr("cy", function (d) {return y(transformY(d));})
       .attr("r", 4)
-      .style("fill", function (d) {return typeColor(d.Species);})
+      .style("fill", function (d) {return typeColor(d.Type);})
       .style("opacity",0.5)
   	.on("mouseover", mouseover)
   	.on("mouseout", mouseout);
