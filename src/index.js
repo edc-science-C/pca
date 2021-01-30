@@ -5,7 +5,7 @@ var margin = {top: 10, right: 30, bottom: 30, left: 60},
 
 // setup fill color
 var typeColor = d3.scaleOrdinal()
-		.domain(["Vegetables","Fruits","Seafood"])
+		.domain(["Seafood","Vegetables","Fruits"])
   		.range(["#66EBFF","#8ED752", "#F95643"])
 
 // setup dropdown options
