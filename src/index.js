@@ -168,7 +168,7 @@ d3.csv("../data/foods_clean.csv", function(data) {
   var x1_var,x2_var,x3_var,y1_var,y2_var,y3_var,x1_val,x2_val,x3_val,y1_val,y2_val,y3_val;
   x1_var = x2_var = x3_var = options[0];
   y1_var = y2_var = y3_var = options[1];
-  x1_val = x2_val = x3_val = y1_val = y2_val = y3_val = 0;
+  x1_val = x2_val = x3_val = y1_val = y2_val = y3_val = 1;
 
   initializeDropdown('button_x1',options,x1_var);
   initializeDropdown('button_x2',options,x2_var);
