@@ -274,9 +274,9 @@ d3.csv("../data/foods_clean.csv", function(data) {
 //slider color update
 function recolor_slider(slider,new_val) {
   var rgb_new = 225 - Math.abs(new_val)*15;
-  if (new_val < -0.5) {
+  if (new_val < -1) {
     slider.style.setProperty('--SliderColor', 'rgb(255,'+rgb_new+','+rgb_new+')');
-  } else if (new_val > 0.5) {
+  } else if (new_val > 1) {
     slider.style.setProperty('--SliderColor', 'rgb('+rgb_new+',255,'+rgb_new+')');
   } else {
     slider.style.setProperty('--SliderColor', 'rgb(200,200,200)');
