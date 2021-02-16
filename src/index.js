@@ -239,28 +239,46 @@ d3.csv("../data/foods_clean.csv", function(data) {
   })
 
   // update for sliders
-  d3.select("#slider_x1").on("change", function(d){
+  d3.select("#slider_x1").on("input", function(d){
+    recolor_slider(this,this.value);
     x1_val = parseFloat(this.value);
     update();
   })
-  d3.select("#slider_x2").on("change", function(d){
+  d3.select("#slider_x2").on("input", function(d){
+    recolor_slider(this,this.value);
     x2_val = parseFloat(this.value);
     update();
   })
-  d3.select("#slider_x3").on("change", function(d){
+  d3.select("#slider_x3").on("input", function(d){
+    recolor_slider(this,this.value);
     x3_val = parseFloat(this.value);
     update();
   })
-  d3.select("#slider_y1").on("change", function(d){
+  d3.select("#slider_y1").on("input", function(d){
+    recolor_slider(this,this.value);
     y1_val = parseFloat(this.value);
     update();
   })
-  d3.select("#slider_y2").on("change", function(d){
+  d3.select("#slider_y2").on("input", function(d){
+    recolor_slider(this,this.value);
     y2_val = parseFloat(this.value);
     update();
   })
-  d3.select("#slider_y3").on("change", function(d){
+  d3.select("#slider_y3").on("input", function(d){
+    recolor_slider(this,this.value);
     y3_val = parseFloat(this.value);
     update();
   })
 })
+
+//slider color update
+function recolor_slider(slider,new_val) {
+  var rgb_new = 225 - Math.abs(new_val)*15;
+  if (new_val < -0.5) {
+    slider.style.setProperty('--SliderColor', 'rgb(255,'+rgb_new+','+rgb_new+')');
+  } else if (new_val > 0.5) {
+    slider.style.setProperty('--SliderColor', 'rgb('+rgb_new+',255,'+rgb_new+')');
+  } else {
+    slider.style.setProperty('--SliderColor', 'rgb(200,200,200)');
+  }
+}

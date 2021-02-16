@@ -21,7 +21,7 @@ body {
 }
 
 .container {
-    width:1200px;
+    width:1300px;
     position: fixed;
 }
 
@@ -36,3 +36,37 @@ body {
     position: absolute;
     right: 0;
 }
+
+.slider {
+  --SliderColor: rgb(200,200,200);
+  -webkit-appearance: none;
+  width: 150px;
+  height: 8px;
+  border-radius: 4px;
+  margin-left: 15px;
+  margin-bottom: 15px;
+  background-color: rgb(225, 225, 225);
+}
+
+/* --------------------------- webkit browsers */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 10px;
+  background-color: var(--SliderColor);
+  overflow: visible;
+  cursor: pointer;
+}
+/* -------------------------- Firefox */
+.slider::-moz-range-thumb { 
+  -moz-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 10px;
+  background-color: var(--SliderColor);
+  overflow: visible;
+  cursor: pointer;
+}
+.slider::-moz-focus-outer { border: 0; }
+/* Remove dotted outline from range input element focused in Firefox */
