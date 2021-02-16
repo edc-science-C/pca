@@ -4,8 +4,9 @@ var margin = {top: 10, right: 30, bottom: 30, left: 60},
     height = 700 - margin.top - margin.bottom;
 
 // setup fill color
+var foodTypes = ["Seafood","Vegetables","Fruits"];
 var typeColor = d3.scaleOrdinal()
-		.domain(["Seafood","Vegetables","Fruits"])
+		.domain(foodTypes)
   		.range(["#66EBFF","#8ED752", "#F95643"])
 
 // setup dropdown options
@@ -31,12 +32,50 @@ var svg1 = d3.select("#scatterplot1")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
 
+//add axes
 svg1.append("g")
   .attr("transform", "translate(0," + y.range()[0] / 2 + ")")
   .call(d3.axisBottom(x));
 svg1.append("g")
   .attr("transform", "translate(" + x.range()[1] / 2 + ", 0)")
   .call(d3.axisLeft(y));
+
+//Add legend
+svg1.append("rect")
+  .attr("width",130)
+  .attr("height",110)
+  .attr("x",700)
+  .attr("y",520)
+  .style("fill","none")
+  .style("stroke","black");
+
+svg1.append("text")
+  .attr("x",715)
+  .attr("y",540)
+  .style("font-weight","bold")
+  .text("Legend");
+
+// Add one dot in the legend for each name.
+svg1.selectAll("legend_dots")
+  .data(foodTypes)
+  .enter()
+  .append("circle")
+    .attr("cx", 725)
+    .attr("cy", function(d,i){ return 560 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
+    .attr("r", 7)
+    .style("fill", function(d){ return typeColor(d)});
+
+// Add one dot in the legend for each name.
+svg1.selectAll("legend_labels")
+  .data(foodTypes)
+  .enter()
+  .append("text")
+    .attr("x", 745)
+    .attr("y", function(d,i){ return 560 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
+    .style("fill", function(d){ return typeColor(d)})
+    .text(function(d){ return d})
+    .attr("text-anchor", "left")
+    .style("alignment-baseline", "middle");
 
 // add the tooltip area to the webpage
 var tooltip = d3.select("#scatterplot1").append("div")
@@ -157,6 +196,43 @@ svg2.append("g")
 svg2.append("g")
   .attr("transform", "translate(" + x.range()[1] / 2 + ", 0)")
   .call(d3.axisLeft(y));
+
+//Add legend
+svg2.append("rect")
+  .attr("width",130)
+  .attr("height",110)
+  .attr("x",700)
+  .attr("y",520)
+  .style("fill","none")
+  .style("stroke","black");
+
+svg2.append("text")
+  .attr("x",715)
+  .attr("y",540)
+  .style("font-weight","bold")
+  .text("Legend");
+
+// Add one dot in the legend for each name.
+svg2.selectAll("legend_dots")
+  .data(foodTypes)
+  .enter()
+  .append("circle")
+    .attr("cx", 725)
+    .attr("cy", function(d,i){ return 560 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
+    .attr("r", 7)
+    .style("fill", function(d){ return typeColor(d)});
+
+// Add one dot in the legend for each name.
+svg2.selectAll("legend_labels")
+  .data(foodTypes)
+  .enter()
+  .append("text")
+    .attr("x", 745)
+    .attr("y", function(d,i){ return 560 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
+    .style("fill", function(d){ return typeColor(d)})
+    .text(function(d){ return d})
+    .attr("text-anchor", "left")
+    .style("alignment-baseline", "middle");
 
 // add the tooltip area to the webpage
 var tooltip2 = d3.select("#scatterplot2").append("div")
