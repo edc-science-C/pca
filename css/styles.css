@@ -35,6 +35,7 @@ body {
     display: inline-block;
     position: absolute;
     right: 0;
+    top: -25px;
 }
 
 .slider {
@@ -70,3 +71,137 @@ body {
 }
 .slider::-moz-focus-outer { border: 0; }
 /* Remove dotted outline from range input element focused in Firefox */
+
+/* for nutritonal facts */
+article {
+  width: 300px;
+  padding: 10px 15px 15px 15px;
+  border: 2px solid #000;
+  box-sizing: border-box;
+  margin-top: 30px;
+  margin-left: 30px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+dl,
+dt,
+dd {
+  margin: 0;
+}
+
+dt,
+dd {
+  display: inline;
+}
+
+dt {
+  font-weight: 600;
+}
+
+tbody th,
+tbody td {
+  padding: 2px 0;
+  font-weight: normal;
+  border-top: 1px solid #000000;
+}
+
+header {
+  border-bottom: 15px solid #000000;
+  margin-bottom: 5px;
+}
+
+header p {
+  margin: 0;
+}
+
+header dl {
+  display: inline-block;
+  width: 49.25%;
+  padding: 5px 0;
+}
+
+header dl + dl {
+  text-align: right;
+}
+
+header dl + dl dt {
+  font-weight: 500;
+}
+
+table {
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+tr {
+  margin: 0;
+  text-align: left;
+}
+
+table thead tr {
+  font-weight: 700;
+  text-align: right;
+}
+
+td.indent + td dt,
+td.indent + td dd {
+  font-weight: 500;
+}
+
+table td:last-of-type {
+  text-align: right;
+}
+
+table:first-of-type tbody:first-of-type td:last-of-type {
+  font-weight: 700;
+  text-align: right;
+}
+
+table:first-of-type tbody:first-of-type {
+  border-bottom: 20px solid #000000;
+}
+
+tfoot td:last-of-type {
+  padding: 0.5rem 0 0.5rem 0.7rem;
+  font-size: 0.9rem;
+  text-indent: -0.7rem;
+  font-weight: 400;
+  text-align: left;
+  border-top: 1px solid #000000;
+}
+
+table + table {
+  font-size: 0.8rem;
+}
+
+table + table tbody td {
+  padding: 2px 0;
+  font-weight: normal;
+  border-top: none;
+}
+
+table + table th {
+  font-weight: normal;
+  border-bottom: 1px solid #000000;
+}
+
+table + table td:last-of-type,
+table + table th {
+  font-weight: 400;
+  text-align: left;
+}
+
+td.indent {
+  width: 1rem;
+  border-top: none;
+}
+
+table + table td.indent {
+  width: auto;
+  text-indent: 1.2rem;
+}

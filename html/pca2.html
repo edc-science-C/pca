@@ -10,41 +10,163 @@
     <h1>Make your own axes!</h1>
     <div class="container">
       <div id="scatterplot2" class="left-element"></div>
-      <div id="sliders" class="right-element">
-        <h2>X-Axis Variables</h2>
-        <div id="x_axis_sliders">
-          <pre>          Negative    Neutral    Positive</pre>
-          <div class="blocks">
-            <select id="button_x1"></select>
-            <input id="slider_x1" type="range" class="slider" min="-10" max="10" value="1">
+      <div id="additional" class="right-element">
+        <div id="sliders">
+          <h2>X-Axis Variables</h2>
+          <div id="x_axis_sliders">
+            <pre>          Negative    Neutral    Positive</pre>
+            <div class="blocks">
+              <select id="button_x1"></select>
+              <input id="slider_x1" type="range" class="slider" min="-10" max="10" value="1">
+            </div>
+            <div class="blocks">
+              <select id="button_x2"></select>
+              <input id="slider_x2" type="range" class="slider" min="-10" max="10" value="1">
+            </div>
+            <div class="blocks">
+              <select id="button_x3"></select>
+              <input id="slider_x3" type="range" class="slider" min="-10" max="10" value="1">
+            </div>
           </div>
-          <div class="blocks">
-            <select id="button_x2"></select>
-            <input id="slider_x2" type="range" class="slider" min="-10" max="10" value="1">
-          </div>
-          <div class="blocks">
-            <select id="button_x3"></select>
-            <input id="slider_x3" type="range" class="slider" min="-10" max="10" value="1">
-          </div>
-      </div>
-        <h2>Y-Axis Variables</h2>
-        <div id="y_axis_sliders">
-          <pre>          Negative    Neutral    Positive</pre>
-          <div class="blocks">
-            <select id="button_y1"></select>        
-            <input id="slider_y1" type="range" class="slider" min="-10" max="10" value="1">
-          </div>
-          <div class="blocks">
-            <select id="button_y2"></select>
-            <input id="slider_y2" type="range" class="slider" min="-10" max="10" value="1">
-          </div>
-          <div class="blocks">
-            <select id="button_y3"></select>
-            <input id="slider_y3" type="range" class="slider" min="-10" max="10" value="1">
+          <h2>Y-Axis Variables</h2>
+          <div id="y_axis_sliders">
+            <pre>          Negative    Neutral    Positive</pre>
+            <div class="blocks">
+              <select id="button_y1"></select>        
+              <input id="slider_y1" type="range" class="slider" min="-10" max="10" value="1">
+            </div>
+            <div class="blocks">
+              <select id="button_y2"></select>
+              <input id="slider_y2" type="range" class="slider" min="-10" max="10" value="1">
+            </div>
+            <div class="blocks">
+              <select id="button_y3"></select>
+              <input id="slider_y3" type="range" class="slider" min="-10" max="10" value="1">
+            </div>
           </div>
         </div>
+        <div id="nutrition">
+          <article>
+            <header>
+              <h1 id='food_name'>Nutrition Facts</h1>
+              <dl>
+                <dt>Calories</dt>
+                <dd id='calories'></dd>
+              </dl>
+              <dl>
+                <dt>Calories from Fat</dt>
+                <dd id='cal_from_fat'></dd>
+              </dl>
+            </header>
+            <table>
+              <tbody>
+                <tr>
+                  <th colspan="2" scope="row">
+                    <dl>
+                      <dt>Total Fat</dt>
+                      <dd id="fat"></dd>
+                    </dl>
+                  </th>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td class="indent"></td>
+                  <td>
+                    <dl>
+                      <dt>Saturated Fat</dt>
+                      <dd id="sat_fat"></dd>
+                    </dl>
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th colspan="2" scope="row">
+                    <dl>
+                      <dt>Cholesterol</dt>
+                      <dd id="cholesterol"></dd>
+                    </dl>
+                  </th>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th colspan="2" scope="row">
+                    <dl>
+                      <dt>Sodium</dt>
+                      <dd id='sodium'></dd>
+                    </dl>
+                  </th>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th colspan="2" scope="row">
+                    <dl>
+                      <dt>Potassium</dt>
+                      <dd id='potassium'></dd>
+                    </dl>
+                  </th>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th colspan="2" scope="row">
+                    <dl>
+                      <dt>Total Carbohydrate</dt>
+                      <dd id='carb'></dd>
+                    </dl>
+                  </th>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td class="indent"></td>
+                  <td>
+                    <dl>
+                      <dt>Dietary Fiber</dt>
+                      <dd id='fiber'>g</dd>
+                    </dl>
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td class="indent"></td>
+                  <td>
+                    <dl>
+                      <dt>Sugars</dt>
+                      <dd id='sugar'></dd>
+                    </dl>
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th colspan="2" scope="row">
+                    <dl>
+                      <dt>Protein</dt>
+                      <dd id='protein'></dd>
+                    </dl>
+                  </th>
+                  <td></td>
+                </tr>
+              </tbody>
+              <tbody>
+                <tr>
+                  <th colspan="2" scope="row">Vitamin A</th>
+                  <td id='vit_a'></td>
+                </tr>
+                <tr>
+                  <th colspan="2" scope="row">Vitamin C</th>
+                  <td id='vit_c'></td>
+                </tr>
+                <tr>
+                  <th colspan="2" scope="row">Calcium</th>
+                  <td id='calcium'></td>
+                </tr>
+                <tr>
+                  <th colspan="2" scope="row">Iron</th>
+                  <td id='iron'></td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+        </div>
       </div>
-    </div>
     <script type="text/javascript" src="../dist/main.js"></script>
   </body>
 </html>

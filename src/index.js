@@ -11,9 +11,9 @@ var typeColor = d3.scaleOrdinal()
 
 // setup dropdown options
 var options = ['Calories', 'Calories from Fat', 'Total Fat (g)', 'Saturated Fat (g)',
-       'Cholesterol (mg)','Sodium (g)','Total Carbohydrate (g)','Dietary Fiber (g)', 
-       'Sugars (g)','Protein (g)','Vitamin A (%DV)', 'Vitamin C (%DV)', 'Calcium (%DV)', 
-       'Iron (%DV)','Potassium (g)'];
+       'Cholesterol (mg)','Sodium (mg)','Potassium (mg)','Total Carbohydrate (g)',
+       'Dietary Fiber (g)','Sugars (g)','Protein (g)','Vitamin A (%DV)', 'Vitamin C (%DV)', 
+       'Calcium (%DV)','Iron (%DV)',];
 
 // setup axes
 var x = d3.scaleLinear()
@@ -254,9 +254,26 @@ d3.csv("../data/foods_clean_all.csv", function(data) {
         .duration(200)
         .style("opacity", 1);
     tooltip2
-      .html('<p> ' + d.Food + '</p>' )
+      .html('<p><b>' + d.Food + '</b></p>' )
       .style("left", (d3.event.pageX+10) + "px")
-      .style("top", (d3.event.pageY-75) + "px");
+      .style("top", (d3.event.pageY-55) + "px");
+
+    document.getElementById("food_name").innerHTML = d['Food']
+    document.getElementById("calories").innerHTML = d['Calories_orig']
+    document.getElementById("cal_from_fat").innerHTML = d['Calories from Fat_orig']
+    document.getElementById("fat").innerHTML = d['Total Fat (g)_orig'] + 'g'
+    document.getElementById("sat_fat").innerHTML = d['Saturated Fat (g)_orig'] + 'g'
+    document.getElementById("cholesterol").innerHTML = d['Cholesterol (mg)_orig'] + 'mg'
+    document.getElementById("sodium").innerHTML = d['Sodium (mg)_orig'] + 'mg'
+    document.getElementById("potassium").innerHTML = d['Potassium (mg)_orig'] + 'mg'
+    document.getElementById("carb").innerHTML = d['Total Carbohydrate (g)_orig'] + 'g'
+    document.getElementById("fiber").innerHTML = d['Dietary Fiber (g)_orig'] + 'g'
+    document.getElementById("sugar").innerHTML = d['Sugars (g)_orig'] + 'g'
+    document.getElementById("protein").innerHTML = d['Protein (g)_orig'] + 'g'
+    document.getElementById("vit_a").innerHTML = d['Vitamin A (%DV)_orig'] + '%'
+    document.getElementById("vit_c").innerHTML = d['Vitamin C (%DV)_orig'] + '%'
+    document.getElementById("calcium").innerHTML = d['Calcium (%DV)_orig'] + '%'
+    document.getElementById("iron").innerHTML = d['Iron (%DV)_orig'] + '%'
   }
 
     // Add dots & tooltip
