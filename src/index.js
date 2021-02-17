@@ -10,10 +10,10 @@ var typeColor = d3.scaleOrdinal()
   		.range(["#66EBFF","#8ED752", "#F95643"])
 
 // setup dropdown options
-var options = ['Calories', 'Calories from Fat', 'Total Fat (g)', 'Sodium (g)',
-       'Potassium (g)', 'Total Carbohydrate (g)','Dietary Fiber (g)', 'Sugars (g)', 
-       'Protein (g)', 'Vitamin A (%DV)', 'Vitamin C (%DV)', 'Calcium (%DV)', 
-       'Iron (%DV)','Cholesterol (mg)','Saturated Fat (g)'];
+var options = ['Calories', 'Calories from Fat', 'Total Fat (g)', 'Saturated Fat (g)',
+       'Cholesterol (mg)','Sodium (g)','Total Carbohydrate (g)','Dietary Fiber (g)', 
+       'Sugars (g)','Protein (g)','Vitamin A (%DV)', 'Vitamin C (%DV)', 'Calcium (%DV)', 
+       'Iron (%DV)','Potassium (g)'];
 
 // setup axes
 var x = d3.scaleLinear()
