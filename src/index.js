@@ -93,6 +93,11 @@ var mouseout = function(d) {
     .transition()
     .duration(200)
     .style("opacity", 0);
+
+  tooltip3
+    .transition()
+    .duration(200)
+    .style("opacity", 0);
 }
 
 // make dropdown button
@@ -122,8 +127,6 @@ d3.csv("../data/foods_clean_all.csv", function(data) {
         '</p> <p>' + currentY + ': ' + d.yOrig + '</p>')
       .style("left", (d3.event.pageX+10) + "px")
       .style("top", d3.event.pageY + "px");
-
-    updateNutrition(d);
   }
 
   // Add dots & tooltip
@@ -374,6 +377,92 @@ d3.csv("../data/foods_clean_all.csv", function(data) {
     y3_val = parseFloat(this.value);
     update();
   })
+})
+
+//PAGE 3
+var svg3 = d3.select("#scatterplot3")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+//add axes
+svg3.append("g")
+  .attr("transform", "translate(0," + y.range()[0] / 2 + ")")
+  .call(d3.axisBottom(x));
+svg3.append("g")
+  .attr("transform", "translate(" + x.range()[1] / 2 + ", 0)")
+  .call(d3.axisLeft(y));
+
+//Add legend
+svg3.append("rect")
+  .attr("width",130)
+  .attr("height",110)
+  .attr("x",700)
+  .attr("y",520)
+  .style("fill","none")
+  .style("stroke","black");
+
+svg3.append("text")
+  .attr("x",715)
+  .attr("y",540)
+  .style("font-weight","bold")
+  .text("Legend");
+
+// Add one dot in the legend for each name.
+svg3.selectAll("legend_dots")
+  .data(foodTypes)
+  .enter()
+  .append("circle")
+    .attr("cx", 725)
+    .attr("cy", function(d,i){ return 560 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
+    .attr("r", 7)
+    .style("fill", function(d){ return typeColor(d)});
+
+// Add one dot in the legend for each name.
+svg3.selectAll("legend_labels")
+  .data(foodTypes)
+  .enter()
+  .append("text")
+    .attr("x", 745)
+    .attr("y", function(d,i){ return 560 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
+    .style("fill", function(d){ return typeColor(d)})
+    .text(function(d){ return d})
+    .attr("text-anchor", "left")
+    .style("alignment-baseline", "middle");
+
+// add the tooltip area to the webpage
+var tooltip3 = d3.select("#scatterplot3").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
+//Read the data
+d3.csv("../data/foods_clean_all.csv", function(data) {
+  var mouseover = function(d) {
+    tooltip3
+      .transition()
+        .duration(200)
+        .style("opacity", 1);
+    tooltip3
+      .html('<p><b>' + d.Food + '</b></p> <p>')
+      .style("left", (d3.event.pageX+10) + "px")
+      .style("top", d3.event.pageY + "px");
+  }
+
+  // Add dots & tooltip
+  var circles = svg3.selectAll("circle")
+    .data(data)
+    .enter()
+    .append("circle")
+      .attr("cx", function (d) {return x(d.pc1);})
+      .attr("cy", function (d) {return y(d.pc2);})
+      .attr("r", 4)
+      .style("fill", function (d) {return typeColor(d.Type);})
+      .style("opacity",0.5)
+    .on("mouseover", mouseover)
+    .on("mouseout", mouseout);
 })
 
 //slider color update
