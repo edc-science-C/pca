@@ -122,6 +122,8 @@ d3.csv("../data/foods_clean_all.csv", function(data) {
         '</p> <p>' + currentY + ': ' + d.yOrig + '</p>')
       .style("left", (d3.event.pageX+10) + "px")
       .style("top", d3.event.pageY + "px");
+
+    updateNutrition(d);
   }
 
   // Add dots & tooltip
@@ -234,6 +236,25 @@ var tooltip2 = d3.select("#scatterplot2").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
+function updateNutrition(d) {
+  document.getElementById("food_name").innerHTML = d['Food']
+  document.getElementById("calories").innerHTML = d['Calories_orig']
+  document.getElementById("cal_from_fat").innerHTML = d['Calories from Fat_orig']
+  document.getElementById("fat").innerHTML = d['Total Fat (g)_orig'] + 'g'
+  document.getElementById("sat_fat").innerHTML = d['Saturated Fat (g)_orig'] + 'g'
+  document.getElementById("cholesterol").innerHTML = d['Cholesterol (mg)_orig'] + 'mg'
+  document.getElementById("sodium").innerHTML = d['Sodium (mg)_orig'] + 'mg'
+  document.getElementById("potassium").innerHTML = d['Potassium (mg)_orig'] + 'mg'
+  document.getElementById("carb").innerHTML = d['Total Carbohydrate (g)_orig'] + 'g'
+  document.getElementById("fiber").innerHTML = d['Dietary Fiber (g)_orig'] + 'g'
+  document.getElementById("sugar").innerHTML = d['Sugars (g)_orig'] + 'g'
+  document.getElementById("protein").innerHTML = d['Protein (g)_orig'] + 'g'
+  document.getElementById("vit_a").innerHTML = d['Vitamin A (%DV)_orig'] + '%'
+  document.getElementById("vit_c").innerHTML = d['Vitamin C (%DV)_orig'] + '%'
+  document.getElementById("calcium").innerHTML = d['Calcium (%DV)_orig'] + '%'
+  document.getElementById("iron").innerHTML = d['Iron (%DV)_orig'] + '%'
+}
+
 //Read the data
 d3.csv("../data/foods_clean_all.csv", function(data) {
   var x1_var,x2_var,x3_var,y1_var,y2_var,y3_var,x1_val,x2_val,x3_val,y1_val,y2_val,y3_val;
@@ -258,22 +279,7 @@ d3.csv("../data/foods_clean_all.csv", function(data) {
       .style("left", (d3.event.pageX+10) + "px")
       .style("top", (d3.event.pageY-55) + "px");
 
-    document.getElementById("food_name").innerHTML = d['Food']
-    document.getElementById("calories").innerHTML = d['Calories_orig']
-    document.getElementById("cal_from_fat").innerHTML = d['Calories from Fat_orig']
-    document.getElementById("fat").innerHTML = d['Total Fat (g)_orig'] + 'g'
-    document.getElementById("sat_fat").innerHTML = d['Saturated Fat (g)_orig'] + 'g'
-    document.getElementById("cholesterol").innerHTML = d['Cholesterol (mg)_orig'] + 'mg'
-    document.getElementById("sodium").innerHTML = d['Sodium (mg)_orig'] + 'mg'
-    document.getElementById("potassium").innerHTML = d['Potassium (mg)_orig'] + 'mg'
-    document.getElementById("carb").innerHTML = d['Total Carbohydrate (g)_orig'] + 'g'
-    document.getElementById("fiber").innerHTML = d['Dietary Fiber (g)_orig'] + 'g'
-    document.getElementById("sugar").innerHTML = d['Sugars (g)_orig'] + 'g'
-    document.getElementById("protein").innerHTML = d['Protein (g)_orig'] + 'g'
-    document.getElementById("vit_a").innerHTML = d['Vitamin A (%DV)_orig'] + '%'
-    document.getElementById("vit_c").innerHTML = d['Vitamin C (%DV)_orig'] + '%'
-    document.getElementById("calcium").innerHTML = d['Calcium (%DV)_orig'] + '%'
-    document.getElementById("iron").innerHTML = d['Iron (%DV)_orig'] + '%'
+    updateNutrition(d);
   }
 
     // Add dots & tooltip
