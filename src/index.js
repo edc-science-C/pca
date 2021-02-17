@@ -235,7 +235,7 @@ var tooltip2 = d3.select("#scatterplot2").append("div")
     .style("opacity", 0);
 
 //Read the data
-d3.csv("../data/foods_clean.csv", function(data) {
+d3.csv("../data/foods_clean_all.csv", function(data) {
   var x1_var,x2_var,x3_var,y1_var,y2_var,y3_var,x1_val,x2_val,x3_val,y1_val,y2_val,y3_val;
   x1_var = x2_var = x3_var = options[0];
   y1_var = y2_var = y3_var = options[1];
