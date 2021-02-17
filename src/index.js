@@ -11,9 +11,9 @@ var typeColor = d3.scaleOrdinal()
 
 // setup dropdown options
 var options = ['Calories', 'Calories from Fat', 'Total Fat (g)', 'Sodium (g)',
-       'Potassium (g)', 'Dietary Fiber (g)', 'Sugars (g)', 'Protein (g)',
-       'Vitamin A (%DV)', 'Vitamin C (%DV)', 'Calcium (%DV)', 'Iron (%DV)',
-       'Cholesterol (mg)'];
+       'Potassium (g)', 'Total Carbohydrate (g)','Dietary Fiber (g)', 'Sugars (g)', 
+       'Protein (g)', 'Vitamin A (%DV)', 'Vitamin C (%DV)', 'Calcium (%DV)', 
+       'Iron (%DV)','Cholesterol (mg)','Saturated Fat (g)'];
 
 // setup axes
 var x = d3.scaleLinear()
@@ -82,26 +82,6 @@ var tooltip = d3.select("#scatterplot1").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
-var mouseover = function(d) {
-    tooltip
-    	.transition()
-        .duration(200)
-      	.style("opacity", 1);
-  	tooltip
-	    .html(d.Food)
-      .style("left", (d3.event.pageX+10) + "px")
-      .style("top", d3.event.pageY + "px");
-
-    tooltip2
-      .transition()
-        .duration(200)
-        .style("opacity", 1);
-    tooltip2
-      .html(d.Food)
-      .style("left", (d3.event.pageX+10) + "px")
-      .style("top", (d3.event.pageY-75) + "px");
-}
-
 // A function that change this tooltip when the leaves a point: just need to set opacity to 0 again
 var mouseout = function(d) {
 	tooltip
@@ -128,12 +108,21 @@ function initializeDropdown(button,options,initial_val) {
 }
 
 //Read the data
-d3.csv("../data/foods_clean.csv", function(data) {
+d3.csv("../data/foods_clean_all.csv", function(data) {
   var currentX = options[0];
   var currentY = options[1];
-
-  initializeDropdown('selectXButton',options,currentX);
-  initializeDropdown('selectYButton',options,currentY);
+  
+  var mouseover = function(d) {
+    tooltip
+      .transition()
+        .duration(200)
+        .style("opacity", 1);
+    tooltip
+      .html('<p><b>' + d.Food + '</b></p> <p>' + currentX + ': ' + d.xOrig + 
+        '</p> <p>' + currentY + ': ' + d.yOrig + '</p>')
+      .style("left", (d3.event.pageX+10) + "px")
+      .style("top", d3.event.pageY + "px");
+  }
 
   // Add dots & tooltip
   var circles = svg1.selectAll("circle")
@@ -148,13 +137,19 @@ d3.csv("../data/foods_clean.csv", function(data) {
   	.on("mouseover", mouseover)
   	.on("mouseout", mouseout);
 
+  initializeDropdown('selectXButton',options,currentX);
+  initializeDropdown('selectYButton',options,currentY);
+  updateAxis(currentX,'x');
+
   function updateAxis(selectedGroup,axis) {
     // Create new data with the selection?
     if (axis == 'y') {
-  	  var dataFilter = data.map(function(d){return {xVar: d[currentX], yVar:d[selectedGroup], Food:d.Food} })
+  	  var dataFilter = data.map(function(d){return {xVar: d[currentX], yVar:d[selectedGroup], Food:d.Food,
+          xOrig: d[currentX + '_orig'], yOrig: d[selectedGroup + '_orig']}})
       currentY = selectedGroup;
     } else {
-  	  var dataFilter = data.map(function(d){return {xVar: d[selectedGroup], yVar:d[currentY], Food:d.Food} })     
+  	  var dataFilter = data.map(function(d){return {xVar: d[selectedGroup], yVar:d[currentY], Food:d.Food,
+          xOrig: d[selectedGroup + '_orig'], yOrig: d[currentY + '_orig']}})  
   	  currentX = selectedGroup;
     }
 
@@ -252,6 +247,17 @@ d3.csv("../data/foods_clean.csv", function(data) {
   initializeDropdown('button_y1',options,y1_var);
   initializeDropdown('button_y2',options,y2_var);
   initializeDropdown('button_y3',options,y3_var);
+
+  var mouseover = function(d) {
+    tooltip2
+      .transition()
+        .duration(200)
+        .style("opacity", 1);
+    tooltip2
+      .html('<p> ' + d.Food + '</p>' )
+      .style("left", (d3.event.pageX+10) + "px")
+      .style("top", (d3.event.pageY-75) + "px");
+  }
 
     // Add dots & tooltip
   var circles = svg2.selectAll("circle")
